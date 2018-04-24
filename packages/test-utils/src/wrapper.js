@@ -408,6 +408,17 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Sets vm data object while preserving existing k/v
+   */
+  setDataObj (obj: string, key: string, value: any) {
+    if (obj === undefined) {
+      this.vm.$set(this.vm, key, value)
+    } else {
+      this.vm.$set(obj, key, value)
+    }
+  }
+
+  /**
    * Sets vm data
    */
   setData (data: Object) {
