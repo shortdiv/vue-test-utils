@@ -70,6 +70,7 @@ interface BaseWrapper {
 
   setComputed (computed: object): void
   setData (data: object): void
+  setDataObj (obj, object, key: string, value: any): void
   setMethods (data: object): void
   setProps (props: object): void
   trigger (eventName: string, options?: object): void

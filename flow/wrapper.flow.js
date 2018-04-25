@@ -30,6 +30,7 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     props(): { [name: string]: any } | void,
     text(): string | void,
     setData(data: Object): void,
+    setDataObj(obj: Object, key: string, value: any): void,
     setComputed(computed: Object): void,
     setMethods(methods: Object): void,
     setProps(data: Object): void,
