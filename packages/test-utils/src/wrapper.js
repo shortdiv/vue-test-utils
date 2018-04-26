@@ -410,30 +410,20 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm data object while preserving existing k/v
    */
-  setDataObj (obj: string, key: string, value: any) {
-    if (obj === undefined) {
-      this.vm.$set(this.vm, key, value)
-    } else {
-      this.vm.$set(obj, key, value)
-    }
-  }
-
-  /**
-   * Sets vm data
-   */
-  setData (data: Object) {
+  setData (obj: string, key: string, value: any) {
     if (this.isFunctionalComponent) {
-      throwError('wrapper.setData() canot be called on a functional component')
+      throwError('wrapper.setData() cannot be called on a functional component')
     }
 
     if (!this.vm) {
       throwError('wrapper.setData() can only be called on a Vue instance')
     }
 
-    Object.keys(data).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      this.vm.$set(this.vm, [key], data[key])
-    })
+    if (obj === undefined) {
+      this.vm.$set(this.vm, key, value)
+    } else {
+      this.vm.$set(obj, key, value)
+    }
   }
 
   /**

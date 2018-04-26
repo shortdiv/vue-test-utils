@@ -20,7 +20,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     expect(wrapper.findAll('.child.ready').length).to.equal(0)
-    wrapper.setData({ ready: true })
+    wrapper.setData(wrapper.vm, 'ready', true)
     expect(wrapper.findAll('.child.ready').length).to.equal(1)
   })
 
@@ -34,7 +34,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       }
     }
     const wrapper = mountingMethod(Component)
-    wrapper.setData({ show: true })
+    wrapper.setData(wrapper.vm, 'show', true)
     expect(wrapper.element).to.equal(wrapper.vm.$el)
     expect(wrapper.hasClass('some-class')).to.be.true
   })
@@ -42,14 +42,15 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
   it('runs watch function when data is updated', () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
-    wrapper.setData({ data1 })
+    wrapper.setData(wrapper.vm, 'data1', data1)
     expect(wrapper.vm.data2).to.equal(data1)
   })
 
   it('runs watch function after all props are updated', () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
-    wrapper.setData({ data2: 'newProp', data1 })
+    wrapper.setData(wrapper.vm, 'data2','newProp')
+    wrapper.setData(wrapper.vm, 'data1', data1)
     expect(info.args[1][0]).to.equal(data1)
   })
 
@@ -58,7 +59,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const p = wrapper.find('p')
-    expect(() => p.setData({ ready: true })).throw(Error, message)
+    expect(() => p.setData(wrapper.vm, 'ready', true)).throw(Error, message)
   })
 
   it('throws error when called on functional vnode', () => {
@@ -66,8 +67,9 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       render: (h, context) => h('div', context.prop1),
       functional: true
     }
-    const message = '[vue-test-utils]: wrapper.setData() canot be called on a functional component'
-    const fn = () => mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
+    const message = '[vue-test-utils]: wrapper.setData() cannot be called on a functional component'
+    const wrapper = mountingMethod(AFunctionalComponent)
+    const fn = () => wrapper.setData(wrapper.vm, 'data1', 'data')
     expect(fn).to.throw().with.property('message', message)
     // find on functional components isn't supported in Vue < 2.3
     if (vueVersion < 2.3) {
@@ -79,7 +81,9 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
         AFunctionalComponent
       }
     }
-    const fn2 = () => mountingMethod(TestComponent).find(AFunctionalComponent).setData({ data1: 'data' })
+    const wrapper2 = mountingMethod(TestComponent)
+    const FuncComp = wrapper2.find(AFunctionalComponent)
+    const fn2 = () => FuncComp.setData(FuncComp.vm, 'data1', 'data')
     expect(fn2).to.throw().with.property('message', message)
   })
 
@@ -107,7 +111,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent)
 
-    wrapper.setData({ text: 'hello' })
+    wrapper.setData(wrapper.vm, 'text', 'hello')
     expect(wrapper.vm.basket[0]).to.equal('hello')
   })
 
@@ -129,7 +133,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setData({ message: null })
+    wrapper.setData(wrapper.vm, 'message', null)
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 })

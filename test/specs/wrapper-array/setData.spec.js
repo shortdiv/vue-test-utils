@@ -10,7 +10,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     const wrapper = mountingMethod(TestComponent)
     const componentArr = wrapper.findAll(ComponentWithVIf)
     expect(componentArr.at(0).findAll('.child.ready').length).to.equal(0)
-    componentArr.setData({ ready: true })
+    componentArr.setData(componentArr.wrappers[0].vm, 'ready', true)
     expect(componentArr.at(0).findAll('.child.ready').length).to.equal(1)
   })
 
@@ -18,14 +18,17 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     const message = '[vue-test-utils]: wrapper.setData() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
-    const fn = () => wrapper.findAll('p').setData({ ready: true })
+    const p = wrapper.findAll('p')
+    const fn = () => p.setData(p.vm, 'ready', true)
     expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: setData cannot be called on 0 items'
-    const fn = () => mountingMethod(compiled).findAll('p').setData('p')
+    const wrapper = mountingMethod(compiled)
+    const p = wrapper.findAll('p')
+    const fn = () => p.setData(p.vm, 'p')
     expect(fn).to.throw().with.property('message', message)
   })
 })

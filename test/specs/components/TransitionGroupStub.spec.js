@@ -10,7 +10,7 @@ describeWithShallowAndMount('TransitionGroupStub', (mountingMethod) => {
       }
     })
     expect(wrapper.text()).contains('a')
-    wrapper.setData({ a: 'b' })
+    wrapper.setData(wrapper.vm, 'a', 'b')
     expect(wrapper.text()).contains('b')
   })
 
@@ -40,9 +40,7 @@ describeWithShallowAndMount('TransitionGroupStub', (mountingMethod) => {
         'transition-group': TransitionGroupStub
       }
     })
-    wrapper.setData({
-      someWatchedData: 'some data'
-    })
+    wrapper.setData(wrapper.vm, 'someWatchedData', 'some data')
     expect(wrapper.html()).contains('some data')
   })
 })

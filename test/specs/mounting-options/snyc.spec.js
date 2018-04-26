@@ -82,7 +82,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
     wrapper.trigger('click')
     expect(wrapper.vm.text).to.equal('')
     expect(wrapper.vm.basket.length).to.equal(0)
-    wrapper.setData({ text: 'foo' })
+    wrapper.setData(wrapper.vm, 'text', 'foo')
     expect(wrapper.vm.text).to.equal('foo')
     expect(wrapper.vm.computedText).to.equal('foo')
     expect(wrapper.vm.basket[0]).to.equal('foo')

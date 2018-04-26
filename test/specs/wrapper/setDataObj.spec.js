@@ -20,7 +20,7 @@ describeWithShallowAndMount('setDataObj', (mountingMethod) => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setDataObj(wrapper.vm, 'text', 'goodbye')
+    wrapper.setData(wrapper.vm, 'text', 'goodbye')
     expect(wrapper.vm.text).to.equal('goodbye')
   })
   it('should allow for setting a data object', () => {
@@ -32,7 +32,7 @@ describeWithShallowAndMount('setDataObj', (mountingMethod) => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setDataObj(wrapper.vm.message, 'read', true)
+    wrapper.setData(wrapper.vm.message, 'read', true)
     expect(wrapper.vm.message.text).to.equal('hello')
     expect(wrapper.vm.message.read).to.equal(true)
   })

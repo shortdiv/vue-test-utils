@@ -11,7 +11,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
       }
     })
     expect(wrapper.text()).contains('a')
-    wrapper.setData({ a: 'b' })
+    wrapper.setData(wrapper.vm, 'a', 'b')
     expect(wrapper.text()).contains('b')
   })
 
@@ -80,7 +80,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
       }
     })
     expect(wrapper.text()).to.equal('a')
-    wrapper.setData({ bool: false })
+    wrapper.setData(wrapper.vm, 'bool', false)
     expect(wrapper.text()).to.equal('b')
   })
 })
