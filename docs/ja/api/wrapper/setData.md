@@ -5,7 +5,9 @@
 **Wrapper には Vue インスタンスを含む必要があることに注意してください**
 
 - **引数:**
-  - `{Object} data`
+  - `{Object} target`
+  - `{string} key`
+  - `{any} value`
 
 - **例:**
 
@@ -14,19 +16,9 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-wrapper.setData({ foo: 'bar' })
+wrapper.setData(wrapper.vm, 'foo', 'bar')
 expect(wrapper.vm.foo).toBe('bar')
 ```
-# `setDataObj(target, key, value)`
-
-`Wrapper``vm`データオブジェクトを設定し、更新を強制します。 これは `Vue.set`と` vm。$ set`と構造が似ています。
-
-- **引数:**
-  - `{Object} target`
-  - `{string} key`
-  - `{any} value`
-
-- **例:**
 
 ```js
 import { mount } from '@vue/test-utils'
