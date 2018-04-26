@@ -5,7 +5,9 @@
 **すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
-  - `{Object} data`
+  - `{Object} target`
+  - `{string} key`
+  - `{any} value`
 
 - **例:**
 
@@ -16,6 +18,6 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-barArray.setData({ foo: 'bar' })
+barArray.setData(barArray.vm, 'foo', 'bar')
 expect(barArray.at(0).vm.foo).toBe('bar')
 ```
