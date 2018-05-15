@@ -1,11 +1,13 @@
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
+import HelloWorld from '~resources/components/hello-world.vue'
 import {
   describeWithShallowAndMount,
   itDoNotRunIf,
   scopedSlotsSupported
 } from '~resources/utils'
 import Vue from 'vue'
+import Vuetify from "vuetify";
 
 describeWithShallowAndMount('trigger', (mountingMethod) => {
   let info
@@ -170,5 +172,31 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
       const fn = () => wrapper.trigger(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })
+  })
+  it('checks a box', () => {
+    const TestComponent = {
+      template: `<input class="input-thing" type="checkbox">`
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find('.input-thing').element.checked).to.equal(false)
+    wrapper.trigger('click')
+    expect(wrapper.find('.input-thing').element.checked).to.equal(true)
+    wrapper.trigger('click')
+    expect(wrapper.find('.input-thing').element.checked).to.equal(false)
+  })
+})
+
+describe('Hello World', () => {
+  let localVue;
+  beforeEach(() => {
+    const _Vue = createLocalVue();
+    _Vue.use(Vuetify);
+    localVue = _Vue;
+  })
+  it('does something', () => {
+    const wrapper = mountingMethod(HelloWorld, {
+      localVue
+    })
+    expect(wrapper.vm.vuetify.items.length).toBe(0);
   })
 })
