@@ -1,5 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithMethods from '~resources/components/component-with-methods.vue'
+import ComponentWithClickMethod from '~resources/components/component-with-click-method.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setMethods', (mountingMethod) => {
@@ -23,5 +24,12 @@ describeWithShallowAndMount('setMethods', (mountingMethod) => {
     const wrapper = mountingMethod(compiled)
     const p = wrapper.find('p')
     expect(() => p.setMethods({ ready: true })).throw(Error, message)
+  })
+  it('should update a method if new method is added', () => {
+    const wrapper = mountingMethod(ComponentWithClickMethod)
+    const func = jest.fn()
+    wrapper.setMethods({ someMethod: func })
+    wrapper.find('button').trigger('click')
+    expect(func).toHaveBeenCalled()
   })
 })
